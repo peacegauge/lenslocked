@@ -1,12 +1,11 @@
 <h1>Welcome to the faq page</h1>
 <ul>
-    {{template "faq"}}
-    {{template "faq"}}
-    {{template "faq"}}
-    {{template "faq"}}
+    {{range .}}
+        {{template "faq" .}}
+    {{end}}
 </ul>
 
 
 {{define "faq"}}
-<li><b>Question</b>Answer</li>
+<li><b>{{.Question}}</b> {{.Answer}}</li>
 {{end}}
