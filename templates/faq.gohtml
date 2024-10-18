@@ -1,4 +1,4 @@
-{{template "header"}}
+{{template "header" .}}
 <h1>Welcome to the faq page</h1>
 <ul>
     {{range .}}
@@ -11,4 +11,4 @@
 <li><b>{{.Question}}</b> {{.Answer}}</li>
 {{end}}
 
-{{template "footer"}}
+{{template "footer" .}}
