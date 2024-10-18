@@ -14,15 +14,23 @@ func main() {
 	const port = ":5000"
 	r := chi.NewRouter()
 
+	//Home handler
 	tpl := views.Must(views.ParseFS(templates.FS, "home.gohtml", "tailwind.gohtml"))
 	r.Get("/", controllers.StaticHandler(tpl))
 
+	//Contact handler
 	tpl = views.Must(views.ParseFS(templates.FS, "contact.gohtml", "tailwind.gohtml"))
 	r.Get("/contact", controllers.StaticHandler(tpl))
 
+	//Faq handler
 	tpl = views.Must(views.ParseFS(templates.FS, "faq.gohtml", "tailwind.gohtml"))
 	r.Get("/faq", controllers.FAQ(tpl))
 
+	//Signin handler
+	tpl = views.Must(views.ParseFS(templates.FS, "signup.gohtml", "tailwind.gohtml"))
+	r.Get("/signup", controllers.StaticHandler(tpl))
+
+	//NotFound handler
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found, Opppps!", 404)
 	})
