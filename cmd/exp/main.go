@@ -63,14 +63,16 @@ func main() {
 	}
 	fmt.Println("Tables created")
 
-	//Insert some data
-	name := "Jon Bandit"
-	email := "test@email.com"
-	_, err = db.Exec(`
-	INSERT INTO users (name, email)
-	VALUES ($1, $2);`, name, email)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("User created.")
+	//Insert some data and return an id
+	// name := "Test Bandit"
+	// email := "test1@email.com"
+	// row := db.QueryRow(`
+	// INSERT INTO users (name, email)
+	// VALUES ($1, $2) RETURNING id;`, name, email)
+	// var id int
+	// err = row.Scan(&id) //because go is strongly typed we dont know what value is being returned ence we use memory addresses
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Println("User created. id = ", id)
 }
