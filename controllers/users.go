@@ -25,7 +25,14 @@ func (u Users) New(w http.ResponseWriter, r *http.Request) {
 
 func (u Users) Create(w http.ResponseWriter, r *http.Request) {
 
-	// you are getting the names you assigned each input in you form
-	fmt.Fprint(w, "Email: ", r.FormValue("email"), "\n")
-	fmt.Fprint(w, "Password: ", r.FormValue("password"))
+	// you are getting the names you assigned from each input in you form
+	email := r.FormValue("email")
+	password := r.FormValue("password")
+	user, err := u.UserService.Create(email, password)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Something went wrong.", http.StatusInternalServerError)
+		return
+	}
+	fmt.Fprintf(w, "User created: %+v", user)
 }
