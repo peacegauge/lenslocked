@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/peacegauge/lenslocked/controllers"
+	"github.com/peacegauge/lenslocked/models"
 	"github.com/peacegauge/lenslocked/templates"
 	"github.com/peacegauge/lenslocked/views"
 )
@@ -13,6 +14,25 @@ import (
 func main() {
 	const port = ":5000"
 	r := chi.NewRouter()
+
+	//connecting to db
+	cfg := models.DefaultPostgresConfig()
+
+	db, err := models.Open(cfg)
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Connected")
+
+	userService := models.UserService{
+		DB: db,
+	}
 
 	//Home handler
 	tpl := views.Must(views.ParseFS(templates.FS, "home.gohtml", "tailwind.gohtml"))
@@ -27,7 +47,9 @@ func main() {
 	r.Get("/faq", controllers.FAQ(tpl))
 
 	//Signup handler
-	usersC := controllers.Users{}
+	usersC := controllers.Users{
+		UserService: &userService,
+	}
 	usersC.Templates.New = views.Must(views.ParseFS(templates.FS, "signup.gohtml", "tailwind.gohtml"))
 	r.Get("/signup", usersC.New)
 
